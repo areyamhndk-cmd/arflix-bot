@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARFlix</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:white;font-family:Arial,sans-serif}
+header{padding:22px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:27px;font-weight:bold;color:#e50914}
+.tag{font-size:11px;color:#aaa}
+.search{margin:0 18px 18px;padding:12px;width:calc(100% - 36px);border:1px solid #444;border-radius:8px;background:#222;color:white}
+.hero{margin:0 18px;padding:25px 20px;border-radius:12px;background:linear-gradient(90deg,#390000,#171717);min-height:180px}
+.hero h1{font-size:28px;margin:10px 0}
+.hero p{color:#ccc;font-size:13px}
+button{background:#e50914;color:white;border:0;border-radius:6px;padding:11px 17px;font-weight:bold}
+h3{margin:25px 18px 12px}
+.categories{display:flex;gap:9px;overflow:auto;padding:0 18px}
+.categories button{white-space:nowrap;background:#292929;border:1px solid #444}
+.categories button.active{background:#e50914;border-color:#e50914}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;padding:0 18px 30px}
+.movie{background:#202020;border-radius:9px;overflow:hidden}
+.poster{height:145px;background:linear-gradient(135deg,#4a1010,#171717);display:flex;align-items:center;justify-content:center;font-size:42px}
+.info{padding:10px}
+.info strong{font-size:14px}
+.info p{font-size:11px;color:#aaa}
+.info button{width:100%;padding:9px}
+footer{text-align:center;color:#777;padding:20px;font-size:11px}
+</style>
+</head>
+<body>
+<header>
+<div><div class="logo">ARFLIX</div><div class="tag">YOUR MOVIE WORLD</div></div>
+<div>☰</div>
+</header>
+
+<input class="search" id="search" placeholder="Cari film..." oninput="filterMovies()">
+
+<section class="hero">
+<div style="color:#ff7777;font-size:12px">SELAMAT DATANG DI ARFLIX</div>
+<h1>Film favoritmu,<br>di satu tempat.</h1>
+<p>Temukan hiburan dari berbagai genre.</p>
+<button onclick="document.getElementById('catalog').scrollIntoView()">Jelajahi Film</button>
+</section>
+
+<h3>Kategori</h3>
+<div class="categories">
+<button class="active" onclick="filterGenre('Semua',this)">Semua</button>
+<button onclick="filterGenre('Horor',this)">Horor</button>
+<button onclick="filterGenre('Komedi',this)">Komedi</button>
+<button onclick="filterGenre('Aksi',this)">Aksi</button>
+<button onclick="filterGenre('Romantis',this)">Romantis</button>
+<button onclick="filterGenre('Animasi',this)">Animasi</button>
+</div>
+
+<h3 id="catalog">Pilihan ARFlix</h3>
+<div class="grid" id="movies">
+<div class="movie" data-genre="Horor"><div class="poster">👻</div><div class="info"><strong>Demo Horor</strong><p>Horor • Video demo</p><button onclick="demo()">Lihat Detail</button></div></div>
+<div class="movie" data-genre="Komedi"><div class="poster">😂</div><div class="info"><strong>Demo Komedi</strong><p>Komedi • Video demo</p><button onclick="demo()">Lihat Detail</button></div></div>
+<div class="movie" data-genre="Aksi"><div class="poster">💥</div><div class="info"><strong>Demo Aksi</strong><p>Aksi • Video demo</p><button onclick="demo()">Lihat Detail</button></div></div>
+<div class="movie" data-genre="Animasi"><div class="poster">🐼</div><div class="info"><strong>Demo Animasi</strong><p>Animasi • Video demo</p><button onclick="demo()">Lihat Detail</button></div></div>
+</div>
+<footer>ARFlix © 2026 • Konten resmi dan berizin</footer>
+
+<script>
+let genre='Semua';
+function filterGenre(g,b){
+genre=g;
+document.querySelectorAll('.categories button').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+filterMovies();
+}
+function filterMovies(){
+let q=document.getElementById('search').value.toLowerCase();
+document.querySelectorAll('.movie').forEach(m=>{
+let matchGenre=genre==='Semua'||m.dataset.genre===genre;
+let matchText=m.innerText.toLowerCase().includes(q);
+m.style.display=matchGenre&&matchText?'block':'none';
+});
+}
+function demo(){alert('Video demo ARFlix akan ditambahkan setelah katalog siap.');}
+</script>
+</body>
+</html>
