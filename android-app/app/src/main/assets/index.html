@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARFlix</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:white;font-family:Arial,sans-serif}
+header{padding:20px;background:#080808;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:27px;font-weight:bold;color:#e50914}
+.tag{font-size:11px;color:#aaa}
+.hero{padding:35px 20px;background:linear-gradient(90deg,#290609,#171717);min-height:220px}
+.hero h1{font-size:32px;margin:10px 0}
+.hero p{color:#ccc;font-size:14px;line-height:1.5}
+.search{padding:15px}
+input{width:100%;padding:13px;border:1px solid #444;border-radius:8px;background:#222;color:white;font-size:15px}
+.categories{display:flex;gap:9px;overflow-x:auto;padding:5px 15px 18px}
+.categories button{background:#292929;color:white;border:0;border-radius:20px;padding:10px 16px;white-space:nowrap}
+.categories button.active{background:#e50914}
+h2{font-size:19px;padding:0 16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;padding:12px}
+.card{background:#202020;border-radius:10px;overflow:hidden}
+.poster{height:145px;display:flex;align-items:end;padding:12px;background:linear-gradient(145deg,#6b1520,#171717)}
+.poster b{font-size:18px}
+.info{padding:11px}
+.info small{color:#aaa}
+.info button{width:100%;padding:10px;margin-top:10px;background:#e50914;color:white;border:0;border-radius:6px}
+footer{text-align:center;padding:25px;color:#777;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">ARFLIX</div>
+<div class="tag">MOVIE ENTERTAINMENT</div>
+</header>
+<section class="hero">
+<div style="color:#e50914;font-weight:bold">SELAMAT DATANG</div>
+<h1>Film favoritmu ada di sini.</h1>
+<p>Temukan film, animasi, dan tontonan pilihan melalui katalog ARFlix.</p>
+</section>
+<div class="search">
+<input id="search" placeholder="Cari judul film..." oninput="render()">
+</div>
+<div class="categories">
+<button class="active" onclick="filter('Semua',this)">Semua</button>
+<button onclick="filter('Aksi',this)">Aksi</button>
+<button onclick="filter('Komedi',this)">Komedi</button>
+<button onclick="filter('Animasi',this)">Animasi</button>
+<button onclick="filter('Fantasi',this)">Fantasi</button>
+</div>
+<h2>Pilihan untukmu</h2>
+<div class="grid" id="catalog"></div>
+<footer>© 2026 ARFlix • Katalog tontonan legal</footer>
+<script>
+const films=[
+{title:"Big Buck Bunny",genre:"Komedi",desc:"Animasi komedi terbuka",url:"https://peach.blender.org/"},
+{title:"Sintel",genre:"Fantasi",desc:"Petualangan fantasi terbuka",url:"https://durian.blender.org/"},
+{title:"Tears of Steel",genre:"Aksi",desc:"Film pendek fiksi ilmiah",url:"https://mango.blender.org/"},
+{title:"Elephants Dream",genre:"Animasi",desc:"Film animasi eksperimental",url:"https://orange.blender.org/"},
+{title:"Spring",genre:"Fantasi",desc:"Animasi fantasi pendek",url:"https://studio.blender.org/films/"},
+{title:"Cosmos Laundromat",genre:"Komedi",desc:"Animasi komedi fantasi",url:"https://cloud.blender.org/films/"}
+];
+let selected="Semua";
+function filter(cat,btn){
+selected=cat;
+document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+render();
+}
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+let list=films.filter(f=>(selected==="Semua"||f.genre===selected)&&(f.title.toLowerCase().includes(q)||f.genre.toLowerCase().includes(q)));
+document.getElementById("catalog").innerHTML=list.map(f=>`
+<div class="card">
+<div class="poster"><b>${f.title}</b></div>
+<div class="info">
+<strong>${f.title}</strong><br>
+<small>${f.genre} • ${f.desc}</small>
+<button onclick="window.open('${f.url}','_blank')">Lihat sumber resmi</button>
+</div>
+</div>`).join("");
+}
+render();
+</script>
+</body>
+</html>
